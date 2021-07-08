@@ -6,7 +6,7 @@ const trackerSchema = new Schema({
   name: {
     type: String,
     trim: true,
-    required: "Enter a name for transaction"
+    required: "Enter a name for exercise"
   },
   value: {
     type: Number,
@@ -20,4 +20,4 @@ const trackerSchema = new Schema({
 
 const Tracker = mongoose.model("Tracker", trackerSchema);
 
-module.exports = Transaction;
+module.exports = Tracker;

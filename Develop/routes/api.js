@@ -1,21 +1,35 @@
-const express = require('express');
-const morgan = require('morgan');
+const router = require("express").Router();
+const Transaction = require("../models/tracker.js");
 
-const app = express();
-
-app.listen(3000, () => {
-    console.debug('App listening on :3000');
+router.post("/api/tracker", ({ body }, res) => {
+  Tracker.create(body)
+    .then(dbTracker => {
+      res.json(dbTracker);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
 });
 
-app.use(morgan('tiny'));
-
-morgan.token('host', function(req, res) {
-    return req.hostname;
+router.post("/api/tracker/bulk", ({ body }, res) => {
+  Tracker.insertMany(body)
+    .then(dbTracker => {
+      res.json(dbTracker);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
 });
 
-app.use(morgan(':method :host :status :param[id] :res[content-length] - :response-time ms'));
-
-morgan.token('param', function(req, res, param) {
-    return req.params[param];
+router.get("/api/tracker", (req, res) => {
+  Transaction.find({})
+    .sort({ date: -1 })
+    .then(dbTracker => {
+      res.json(dbTracker);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
 });
+
 module.exports = router;
