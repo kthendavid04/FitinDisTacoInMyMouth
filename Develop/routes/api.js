@@ -1,44 +1,21 @@
-const API = {
-  async getLastWorkout() {
-    let res;
-    try {
-      res = await fetch("/api/workouts");
-    } catch (err) {
-      console.log(err)
-    }
-    const json = await res.json();
+const express = require('express');
+const morgan = require('morgan');
 
-    return json[json.length - 1];
-  },
-  async addExercise(data) {
-    const id = location.search.split("=")[1];
+const app = express();
 
-    const res = await fetch("/api/workouts/" + id, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
+app.listen(3000, () => {
+    console.debug('App listening on :3000');
+});
 
-    const json = await res.json();
+app.use(morgan('tiny'));
 
-    return json;
-  },
-  async createWorkout(data = {}) {
-    const res = await fetch("/api/workouts", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" }
-    });
+morgan.token('host', function(req, res) {
+    return req.hostname;
+});
 
-    const json = await res.json();
+app.use(morgan(':method :host :status :param[id] :res[content-length] - :response-time ms'));
 
-    return json;
-  },
-
-  async getWorkoutsInRange() {
-    const res = await fetch(`/api/workouts/range`);
-    const json = await res.json();
-
-    return json;
-  },
-};
+morgan.token('param', function(req, res, param) {
+    return req.params[param];
+});
+module.exports = router;
