@@ -1,0 +1,31 @@
+const date = new Date(Date.UTC(2020, 11, 20, 3, 23, 16, 738));
+// Results below assume UTC timezone - your results may vary
+
+// Specify default date formatting for language (locale)
+console.log(new Intl.DateTimeFormat('en-US').format(date));
+// expected output: "12/20/2020"
+
+console.log(new Intl.DateTimeFormat('en-GB', { dateStyle: 'full', timeStyle: 'long' }).format(date));
+// Expected output "Sunday, 20 December 2020 at 14:23:16 GMT+11"
+
+
+//nothing more. But we can use Intl.DateTimeFormat with the appropriate locale for converting to an american date:
+
+const options = { month: "long", day: "numeric", year: "numeric" };
+const date = new Date(isoString);
+const americanDate = new Intl.DateTimeFormat("en-US", options).format(date);
+
+
+// imagine you've got the ISO string from the system
+const isoString = new Date().toISOString();
+
+const options = { month: "long", day: "numeric", year: "numeric" };
+const date = new Date(isoString);
+const americanDate = new Intl.DateTimeFormat("en-US", options).format(date);
+
+const time = document.createElement("time");
+time.setAttribute("datetime", isoString);
+// forgive me father for I have sinned with innerText!
+time.innerText = `Published on ${americanDate}`;
+
+document.body.appendChild(time);
