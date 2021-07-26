@@ -26,7 +26,7 @@ function populateChart(data) {
     const date = new Date(day);
 
     // Use JavaScript's `Intl` object to help format dates
-    return new Intl.DateTimeFormat('en-US', {
+    return new chart.DateFormattter.dateFormat('en-US', {
       weekday: 'short',
       month: 'short',
       day: 'numeric',
